@@ -4,7 +4,7 @@
 
 2. **Punch-in race.** When two identical punch-ins arrive simultaneously, both try to insert with the same (emp_code, date). The unique index guarantees only one succeeds (gets 201). The other hits a duplicate key error, which I catch and convert to a 409 response. This is atomic at the database level, so no check-then-insert race condition.
 
-3. **Ties.** My leaderboard uses MongoDB's $denseRank window function, which assigns the same rank to tied employees. When employees tie at the cutoff, all of them are included because I filter by rank <= limit after ranking. Tied rows are sorted by emp_code ascending as required.
+3. **Ties.** My leaderboard uses Python-based dense ranking after fetching sorted results from MongoDB. When employees tie at the cutoff, all of them are included because I filter by rank <= limit after ranking. Tied rows are sorted by emp_code ascending as required.
 
 4. **Headcount.** Department summary first queries employees to count those with joined_on <= month end (R9), storing headcount per department. Then it aggregates attendance logs and merges the results, ensuring departments with zero logs still appear with their headcount.
 

@@ -47,7 +47,7 @@ uvicorn app.main:app --port 8000
 
 Load sample data:
 ```bash
-python sample_seed.py
+python candidate_kit/sample_seed.py
 ```
 
 Health check:
